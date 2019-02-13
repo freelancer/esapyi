@@ -1,0 +1,33 @@
+# EditorConfig helps developers define and maintain consistent
+# coding styles between different editors and IDEs
+# editorconfig.org
+
+root = true
+
+[*.html]
+indent_size = 2
+
+[*.{json,js,jsx,ts,tsx}]
+indent_size = 2
+max_line_length = 80
+
+[*.py]
+indent_size = 4
+max_line_length = 79
+
+[*.md]
+trim_trailing_whitespace = false
+
+# Ensure yml files always use spaces
+[*.yml]
+indent_style = space
+indent_size = 2
+
+[*]
+# We recommend you to keep these unchanged
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+indent_style = space
