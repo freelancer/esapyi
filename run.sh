@@ -22,12 +22,12 @@ function print_title {
 
 function lint {
     docker_build lib/docker/lint/mypy/Dockerfile dm-management-lint-mypy
-    docker_run dm-management-lint-mypy
     print_title "Running mypy"
+    docker_run dm-management-lint-mypy
 
     docker_build lib/docker/lint/pylint/Dockerfile dm-management-lint-pylint
-    docker_run dm-management-lint-pylint
     print_title "Running pylint"
+    docker_run dm-management-lint-pylint
 }
 
 while getopts ":c" opt; do

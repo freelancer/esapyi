@@ -8,6 +8,7 @@ setup(
     author_email='adiswa123@gmail.com',
     packages=find_packages(),
     install_requires=[
+        'Flask==1.0.2'
     ],
     extras_require={
         'dev': [
