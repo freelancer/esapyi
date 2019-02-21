@@ -8,7 +8,9 @@ setup(
     author_email='adiswa123@gmail.com',
     packages=find_packages(),
     install_requires=[
-        'Flask==1.0.2'
+        'Flask==1.0.2',
+        'mypy_extensions',
+        'uWSGI==2.0.18',
     ],
     extras_require={
         'dev': [

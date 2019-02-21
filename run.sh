@@ -30,6 +30,18 @@ function lint {
     docker_run dm-management-lint-pylint
 }
 
+function dev {
+    docker_build lib/docker/dev/Dockerfile dm-management-dev-app
+    print_title "Starting Flask App"
+    docker run \
+        -ti \
+        --rm \
+        --user root:root \
+        --volume `pwd`:/code \
+        --publish 8080:8080 \
+        dm-management-dev-app:$GIT_COMMIT
+}
+
 while getopts ":c" opt; do
     case $opt in
         c)
@@ -47,6 +59,9 @@ done
 case ${@:$OPTIND:1} in
     "lint")
         lint
+        ;;
+    "dev")
+        dev
         ;;
     *)
         echo "Invalid command"
