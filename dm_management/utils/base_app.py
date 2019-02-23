@@ -1,5 +1,4 @@
-from typing import Optional, Dict, Union
-from mypy_extensions import TypedDict
+from typing import Optional
 from flask import Flask
 from dm_management.utils.json_encoder import CustomJSONEncoder
 

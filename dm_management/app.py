@@ -19,5 +19,5 @@ def create_app() -> Flask:
 
 
 if __name__ == '__main__':
-    app = create_app()
+    app = create_app()  # pylint: disable=invalid-name
     app.run('0.0.0.0', debug=True)
