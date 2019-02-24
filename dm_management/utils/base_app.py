@@ -16,3 +16,6 @@ class BaseApp:
 
         self.app = Flask(name, **flask_options)
         self.app.json_encoder = CustomJSONEncoder
+
+    def resgister_blueprints(self) -> None:
+        raise NotImplementedError

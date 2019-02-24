@@ -1,5 +1,6 @@
 from flask import Flask
 from dm_management.utils.base_app import BaseApp
+from dm_management.healthcheck import HealthCheck
 
 
 class FlaskApplication(BaseApp):
@@ -11,6 +12,11 @@ class FlaskApplication(BaseApp):
                 'static_url_path': '/static',
             }
         )
+
+        self.resgister_blueprints()
+
+    def resgister_blueprints(self) -> None:
+        self.app.register_blueprint(HealthCheck(url_prefix='').blueprint)
 
 
 def create_app() -> Flask:
