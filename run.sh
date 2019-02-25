@@ -18,6 +18,10 @@ function kill_if_exists {
     docker rm -f $1 || true
 }
 
+function find_container {
+    docker ps --quiet --all --filter name="$1"
+}
+
 function print_title {
     echo "=============================================="
     echo $1
@@ -34,9 +38,29 @@ function lint {
     docker_run dm-management-lint-pylint
 }
 
+function db {
+    DB_CONTAINER=$(find_container dm-management-mysql-db)
+    if [[ $DB_CONTAINER == "" ]]; then
+        docker create \
+            --name dm-management-mysql-db \
+            --env MYSQL_DATABASE=dm_management \
+            --env MYSQL_USER=dev \
+            --env MYSQL_PASSWORD=dev \
+            --env MYSQL_ROOT_PASSWORD=root \
+            mysql:8
+    fi
+
+    docker start dm-management-mysql-db
+}
+
+function dev_utilities {
+    db
+}
+
 function dev {
     docker_build lib/docker/dev/Dockerfile dm-management-dev-app
     kill_if_exists dm-management-dev-app
+    dev_utilities
     print_title "Starting Flask App"
     docker run \
         -ti \
