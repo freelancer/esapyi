@@ -44,6 +44,7 @@ function dev {
         --user root:root \
         --volume `pwd`:/code \
         --publish 8080:8080 \
+        --env REALM=local_development \
         --name dm-management-dev-app \
         dm-management-dev-app:$GIT_COMMIT
 }
