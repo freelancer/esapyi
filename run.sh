@@ -11,7 +11,11 @@ function docker_build {
 }
 
 function docker_run {
-    docker run --rm --user root:root --volume `pwd`:/code $1:$GIT_COMMIT
+    docker run --rm --user root:root --name "$1" --volume `pwd`:/code $1:$GIT_COMMIT
+}
+
+function kill_if_exists {
+    docker rm -f $1 || true
 }
 
 function print_title {
@@ -32,6 +36,7 @@ function lint {
 
 function dev {
     docker_build lib/docker/dev/Dockerfile dm-management-dev-app
+    kill_if_exists dm-management-dev-app
     print_title "Starting Flask App"
     docker run \
         -ti \
@@ -39,6 +44,7 @@ function dev {
         --user root:root \
         --volume `pwd`:/code \
         --publish 8080:8080 \
+        --name dm-management-dev-app \
         dm-management-dev-app:$GIT_COMMIT
 }
 
