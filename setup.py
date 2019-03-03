@@ -11,6 +11,9 @@ setup(
         'Flask==1.0.2',
         'mypy_extensions',
         'uWSGI==2.0.18',
+        'SQLAlchemy==1.2.18',
+        'PyMySQL==0.9.3',
+        'cryptography==2.6.1',
     ],
     extras_require={
         'dev': [

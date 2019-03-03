@@ -1,6 +1,7 @@
 from flask import Flask
 from dm_management.utils.base_app import BaseApp
 from dm_management.healthcheck import HealthCheck
+from dm_management.models.db import db
 
 
 class FlaskApplication(BaseApp):
@@ -12,6 +13,12 @@ class FlaskApplication(BaseApp):
                 'static_folder': 'static',
                 'static_url_path': '/static',
             }
+        )
+
+        # initialize all app dependant modules
+        db.init_app(
+            app=self.app,
+            config_connection_key='SQLALCHEMY_DB_URI',
         )
 
         self.resgister_blueprints()

@@ -13,8 +13,4 @@ class HealthCheck(BluepritContainer):
         )
     ]
 
-    def error_handler(
-            self,
-            error: Union[int, Exception],
-    ) -> Optional[Tuple[Response, int]]:
-        return None
+    error_types = [Exception]
