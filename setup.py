@@ -14,12 +14,14 @@ setup(
         'SQLAlchemy==1.3.1',
         'PyMySQL==0.9.3',
         'cryptography==2.6.1',
+        'bcrypt==3.1.6',
     ],
     extras_require={
         'dev': [
             'pylint',
             'mypy',
-            'alembic==1.0.8',
+            'alembic',
+            'pytest',
         ],
     },
 )

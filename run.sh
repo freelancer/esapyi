@@ -22,13 +22,17 @@ function find_container {
     docker ps --quiet --all --filter name="$1"
 }
 
+function kill_container {
+    docker rm -f $1
+}
+
 function print_title {
     echo "=============================================="
     echo $1
     echo "=============================================="
 }
 
-function lint {
+function python_lint {
     docker_build lib/docker/lint/mypy/Dockerfile dm-management-lint-mypy
     print_title "Running mypy"
     docker_run dm-management-lint-mypy
@@ -53,6 +57,22 @@ function db {
     docker start dm-management-mysql-db
 }
 
+function testing_db {
+    DB_CONTAINER=$(find_container dm-management-mysql-testing-db)
+    if [[ $DB_CONTAINER != "" ]]; then
+        kill_container dm-management-mysql-testing-db
+    fi
+
+    docker create \
+        --name dm-management-mysql-testing-db \
+        --env MYSQL_DATABASE=dm_management \
+        --env MYSQL_USER=dev \
+        --env MYSQL_PASSWORD=dev \
+        --env MYSQL_ROOT_PASSWORD=root \
+        mysql:8
+    docker start dm-management-mysql-testing-db
+}
+
 function dev_utilities {
     db
 }
@@ -75,7 +95,7 @@ function dev {
 }
 
 function alembic {
-docker_build lib/docker/alembic/Dockerfile dm-management-alembic
+    docker_build lib/docker/alembic/Dockerfile dm-management-alembic
     dev_utilities
     docker run \
         --rm \
@@ -91,6 +111,21 @@ docker_build lib/docker/alembic/Dockerfile dm-management-alembic
 function attach_to_dev_db {
     dev_utilities
     docker exec -ti dm-management-mysql-db mysql -proot
+}
+
+function python_test {
+    testing_db
+    docker_build lib/docker/test/Dockerfile dm-management-test-pytest
+    print_title "Running pytest"
+    docker run \
+        -ti \
+        --rm \
+        --user root:root \
+        --volume `pwd`:/code \
+        --link dm-management-mysql-testing-db:dm-management-db \
+        --env REALM=testing \
+        --name dm-management-test-pytest \
+        dm-management-test-pytest:$GIT_COMMIT
 }
 
 while getopts ":c" opt; do
@@ -109,7 +144,10 @@ done
 
 case ${@:$OPTIND:1} in
     "lint")
-        lint
+        python_lint
+        ;;
+    "test")
+        python_test
         ;;
     "dev")
         case ${@:$OPTIND+1:1} in
