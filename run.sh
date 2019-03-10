@@ -74,6 +74,25 @@ function dev {
         dm-management-dev-app:$GIT_COMMIT
 }
 
+function alembic {
+docker_build lib/docker/alembic/Dockerfile dm-management-alembic
+    dev_utilities
+    docker run \
+        --rm \
+        --user root:root \
+        --volume `pwd`:/code \
+        --env REALM=local_development \
+        --link dm-management-mysql-db:dm-management-db \
+        --name dm-management-alembic \
+        dm-management-alembic:$GIT_COMMIT \
+        alembic $@
+}
+
+function attach_to_dev_db {
+    dev_utilities
+    docker exec -ti dm-management-mysql-db mysql -proot
+}
+
 while getopts ":c" opt; do
     case $opt in
         c)
@@ -93,7 +112,17 @@ case ${@:$OPTIND:1} in
         lint
         ;;
     "dev")
-        dev
+        case ${@:$OPTIND+1:1} in
+            "db")
+                attach_to_dev_db
+                ;;
+            "")
+                dev
+                ;;
+        esac
+        ;;
+    "alembic")
+        alembic ${@:$OPTIND+1}
         ;;
     *)
         echo "Invalid command"

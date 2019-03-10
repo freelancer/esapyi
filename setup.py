@@ -19,6 +19,7 @@ setup(
         'dev': [
             'pylint',
             'mypy',
+            'alembic==1.0.8',
         ],
     },
 )
