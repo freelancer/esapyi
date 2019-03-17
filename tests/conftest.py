@@ -7,7 +7,11 @@ from dm_management.app import create_app
 from dm_management.utils.db import wait_for_db
 
 
-class AppContextTestCase(TestCase):
+class BaseTestCase(TestCase):
+    pass
+
+
+class AppContextTestCase(BaseTestCase):
     def setUp(self) -> None:
         super().setUp()
 
@@ -25,7 +29,7 @@ class DbContextTestCase(AppContextTestCase):
             db_tcp_port=int(os.environ['DM_MANAGEMENT_DB_PORT_3306_TCP_PORT']),
         )
 
-        # ensure all tables are created
+        # ensure all tables are refreshed
         with self.app.app_context():
             alembic_config = AlembicConfig('alembic.ini')
             alembic_command.downgrade(alembic_config, 'base')
