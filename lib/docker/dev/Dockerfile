@@ -8,4 +8,5 @@ RUN pip install -e .[dev]
 # Add the codebase to the image
 ADD . /code
 WORKDIR /code
-CMD uwsgi --ini dev_app_conf.ini
+# CMD uwsgi --ini dev_app_conf.ini
+CMD python dm_management/app.py

@@ -6,6 +6,7 @@ from dm_management.utils.json_encoder import CustomJSONEncoder
 
 class BaseApp:
     app: Flask
+    environment: str
 
     def __init__(
             self,
@@ -34,6 +35,7 @@ class BaseApp:
                 'No environment name found.'
                 'Cannot configure app.'
             )
+        self.environment = environment_name
 
         self.app.config.from_object(  # type: ignore
             f'{self.config_module}.{environment_name}'

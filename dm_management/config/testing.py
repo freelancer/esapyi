@@ -1,5 +1,7 @@
 import os
 
+TESTING = True
+
 SQLALCHEMY_DB_URI = '{engine}://{user}:{pwd}@{addr}:{port}/{db_name}'.format(
     engine='mysql+pymysql',
     user=os.environ['DM_MANAGEMENT_DB_ENV_MYSQL_USER'],

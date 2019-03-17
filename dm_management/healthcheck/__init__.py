@@ -13,4 +13,8 @@ class HealthCheck(BluepritContainer):
         )
     ]
 
-    error_types = [Exception]
+    def error_handler(
+            self,
+            error_or_code: Union[int, Exception],
+    ) -> Optional[Tuple[Response, int]]:
+        pass

@@ -9,5 +9,5 @@ def create_user(email: str, password: str) -> User:
         password=hash_password(password=password),
     )
     db.session.add(user)
-    db.session.commit()
+    db.session.flush()
     return user

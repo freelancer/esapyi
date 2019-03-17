@@ -15,6 +15,7 @@ setup(
         'PyMySQL==0.9.3',
         'cryptography==2.6.1',
         'bcrypt==3.1.6',
+        'pavlova==0.1.3',
     ],
     extras_require={
         'dev': [

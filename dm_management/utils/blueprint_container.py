@@ -1,7 +1,6 @@
 from typing import List, Type, Optional, Tuple, Union, NamedTuple
 from flask import Blueprint, Response
 from flask.views import MethodView
-from dm_management.utils import response
 
 
 class UrlRule(NamedTuple):
@@ -36,9 +35,4 @@ class BluepritContainer:
             self,
             error_or_code: Union[int, Exception],
     ) -> Optional[Tuple[Response, int]]:
-        if isinstance(error_or_code, Exception):
-            return response.error({
-                'error': f'An unhandled error occurred in {self.name}',
-            })
-
-        return None
+        raise NotImplementedError

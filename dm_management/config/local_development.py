@@ -1,6 +1,7 @@
 import os
 
 DEBUG = True
+ENV = 'development'
 
 SQLALCHEMY_DB_URI = '{engine}://{user}:{pwd}@{addr}:{port}/{db_name}'.format(
     engine='mysql+pymysql',

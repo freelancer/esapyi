@@ -149,6 +149,10 @@ case ${@:$OPTIND:1} in
     "test")
         python_test
         ;;
+    "check")
+        python_lint
+        python_test
+        ;;
     "dev")
         case ${@:$OPTIND+1:1} in
             "db")
