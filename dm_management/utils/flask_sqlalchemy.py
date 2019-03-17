@@ -35,6 +35,7 @@ class SqlAlchemy:
 
         self.SessionMaker.configure(bind=self.engine)
         app.teardown_appcontext(self.handle_teardown)
+        app.teardown_request(self.handle_teardown)
 
     @property
     def session(self) -> Session:
