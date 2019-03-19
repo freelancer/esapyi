@@ -4,7 +4,10 @@ from flask import Response
 from pavlova import PavlovaParsingError
 from dm_management.utils.blueprint_container import BluepritContainer, UrlRule
 from dm_management.utils import response
-from dm_management.v1.user import CreateOrFilterUser
+from dm_management.v1.user import (
+    CreateOrFilterUser,
+    GetUserById,
+)
 
 
 class V1(BluepritContainer):
@@ -13,7 +16,12 @@ class V1(BluepritContainer):
             route='/user',
             route_name='create_or_filter_user',
             view=CreateOrFilterUser,
-        )
+        ),
+        UrlRule(
+            route='/user/<int:user_id>',
+            route_name='get_user_by_id',
+            view=GetUserById,
+        ),
     ]
 
     error_types = [PavlovaParsingError]

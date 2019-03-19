@@ -6,3 +6,8 @@ from dm_management.utils.pav import Email
 class User:
     email: Email
     password: str
+
+
+@dataclass
+class UserFilter:
+    email: Email

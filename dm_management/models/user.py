@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Index
+from sqlalchemy import Column, Integer, String, Text, UniqueConstraint
 
 from dm_management.models.db import Base
 
@@ -7,9 +7,9 @@ class User(Base):
     __tablename__ = 'user'
 
     __table_args__ = (
-        Index(
-            'idx_user_email',
+        UniqueConstraint(
             'email',
+            name='uq_user_email',
         ),
     )
 
