@@ -3,7 +3,10 @@ from unittest.mock import patch, MagicMock
 from tests.conftest import AppContextTestCase
 
 from dm_management.models.user import User
-from dm_management.handlers.user import create_user
+from dm_management.handlers.user import (
+    create_user,
+    get_user_by_email,
+)
 
 
 user_mock = User(
@@ -39,3 +42,31 @@ class TestCreateUser(AppContextTestCase):
             }
         )
         assert response.status_code == 200
+
+
+class TestFilterUser(AppContextTestCase):
+    def test_returns_422_when_missing_fields(self) -> None:
+        response = self.client.get(
+            '/v1/user',
+            data={},
+        )
+        assert response.status_code == 422
+
+    @patch(
+        'dm_management.v1.user.get_user_by_email',
+        new=MagicMock(
+            spec=get_user_by_email,
+            return_value=user_mock,
+        ),
+    )
+    def test_can_find_by_email(self) -> None:
+        response = self.client.get(
+            '/v1/user',
+            data={
+                'email': 'test@test.com',
+            }
+        )
+        assert response.status_code == 200
+        response_data = response.json
+        assert 'users' in response_data
+        assert len(response_data['users']) == 1
