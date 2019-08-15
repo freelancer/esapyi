@@ -28,7 +28,7 @@ class BaseApp:
 
     def configure(self) -> None:
         environment_name = os.environ.get('REALM')
-        self.app.config.from_object(self.config_module)  # type: ignore
+        self.app.config.from_object(self.config_module)
 
         if not environment_name:
             raise Exception(
@@ -37,6 +37,6 @@ class BaseApp:
             )
         self.environment = environment_name
 
-        self.app.config.from_object(  # type: ignore
+        self.app.config.from_object(
             f'{self.config_module}.{environment_name}'
         )
