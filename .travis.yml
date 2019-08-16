@@ -3,13 +3,6 @@ language: minimal
 services:
   - docker
 
-jobs:
-  include:
-    - stage: "Check Code"
-      name: "Python Lint"
-      script: ./run.sh lint
-      name: "Python Test"
-      script: ./run.sh test
-
-stages:
-  - "Check Code"
+script:
+- ./run.sh lint
+- ./run.sh test
