@@ -1,12 +1,10 @@
 from typing import Optional
-import os
 from flask import Flask
 from dm_management.utils.json_encoder import CustomJSONEncoder
 
 
 class BaseApp:
     app: Flask
-    environment: str
 
     def __init__(
             self,
@@ -27,16 +25,26 @@ class BaseApp:
         raise NotImplementedError
 
     def configure(self) -> None:
-        environment_name = os.environ.get('REALM')
+        # loads config from the __init__.py file in the modile
         self.app.config.from_object(self.config_module)
 
+        environment_name = self.app.config['ENVIRONMENT']
         if not environment_name:
             raise Exception(
                 'No environment name found.'
                 'Cannot configure app.'
             )
-        self.environment = environment_name
 
+        # load environment specific config
         self.app.config.from_object(
             f'{self.config_module}.{environment_name}'
         )
+
+        # load external config
+        external_config_directory = self.app.config[
+            'EXTERNAL_CONFIG_DIRECTORY'
+        ]
+        if external_config_directory:
+            self.app.config.from_json(
+                f'{external_config_directory}/config.json'
+            )

@@ -77,8 +77,26 @@ function dev_utilities {
     db
 }
 
-function dev {
-    docker_build lib/docker/dev/Dockerfile dm-management-dev-app
+function dev_app {
+    docker_build lib/docker/dev_app/Dockerfile dm-management-dev-app
+    kill_if_exists dm-management-dev-app
+    dev_utilities
+    print_title "Starting Flask App"
+    docker run \
+        -ti \
+        --rm \
+        --user root:root \
+        --volume `pwd`:/code \
+        --publish 8080:8080 \
+        --link dm-management-mysql-db:dm-management-db \
+        --env REALM=local_development \
+        --name dm-management-dev-app \
+        dm-management-dev-app:$GIT_COMMIT
+}
+
+# start the python server using the prod config
+function prod_app {
+    docker_build lib/docker/prod_app/Dockerfile dm-management-dev-app
     kill_if_exists dm-management-dev-app
     dev_utilities
     print_title "Starting Flask App"
@@ -159,9 +177,12 @@ case ${@:$OPTIND:1} in
                 attach_to_dev_db
                 ;;
             "")
-                dev
+                dev_app
                 ;;
         esac
+        ;;
+    "prod")
+        prod_app
         ;;
     "alembic")
         alembic ${@:$OPTIND+1}

@@ -1,12 +1,20 @@
 import os
 from flask import Flask
-from alembic import command as alembic_command
-from alembic.config import Config as AlembicConfig
 from dm_management.utils.base_app import BaseApp
 from dm_management.utils.db import wait_for_db
 from dm_management.healthcheck import HealthCheck
 from dm_management.v1 import V1
 from dm_management.models.db import db
+
+
+# optional importsA
+has_alembic = False
+try:
+    from alembic import command as alembic_command
+    from alembic.config import Config as AlembicConfig
+    has_alembic = True
+except ImportError:
+    pass
 
 
 class FlaskApplication(BaseApp):
@@ -46,6 +54,7 @@ def create_app() -> Flask:
 
 if __name__ == '__main__':
     flask_app = create_app()
+    assert has_alembic
     print('Waiting for the database to startup')
     wait_for_db(
         db_tcp_addr=os.environ['DM_MANAGEMENT_DB_PORT_3306_TCP_ADDR'],
