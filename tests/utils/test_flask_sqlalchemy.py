@@ -51,7 +51,7 @@ class TestBasicMethods(AppContextTestCase):
         shutdown_session_mock.assert_called_once_with(rollback=False)
 
 
-class TestFlaskHooks(DbContextTestCase):
+class TestAsAFlaskExtension(DbContextTestCase):
     def setUp(self) -> None:
         super().setUp()
 
@@ -111,5 +111,96 @@ class TestFlaskHooks(DbContextTestCase):
             # check that the db rolled back
             user = self.fresh_db.session.query(User).filter_by(
                 email='bad@test.com',
+            ).first()
+            assert user is None
+
+
+class TestAsAContextManager(DbContextTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+
+        # create a fresh instance of FlaskSqlAlchemy
+        self.fresh_db = FlaskSqlAlchemy(
+            connection_string=self.app.config['SQLALCHEMY_DB_URI']
+        )
+
+    def test_handles_happy_path(self) -> None:
+        with self.fresh_db as session:
+            session.execute(
+                '''
+                INSERT INTO user (email, password)
+                VALUES ('good@test.com', '123')
+                '''
+            )
+
+        with self.fresh_db as session:
+            # check that data has been inserted into the db
+            user = session.query(User).filter_by(
+                email='good@test.com',
+            ).first()
+            assert user is not None
+
+    def test_handles_unhappy_path(self) -> None:
+        with pytest.raises(Exception):
+            with self.fresh_db as session:
+                session.execute(
+                    '''
+                    INSERT INTO user (email, password)
+                    VALUES ('good@test.com', '123')
+                    '''
+                )
+                raise Exception('something went wrong')
+
+        with self.fresh_db as session:
+            # check that the db rolled back
+            user = session.query(User).filter_by(
+                email='good@test.com',
+            ).first()
+            assert user is None
+
+
+class TestWithoutContextManager(DbContextTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+
+        # create a fresh instance of FlaskSqlAlchemy
+        self.fresh_db = FlaskSqlAlchemy(
+            connection_string=self.app.config['SQLALCHEMY_DB_URI']
+        )
+
+    def test_handles_happy_path(self) -> None:
+        self.fresh_db.session.execute(
+            '''
+            INSERT INTO user (email, password)
+            VALUES ('good@test.com', '123')
+            '''
+        )
+        self.fresh_db.session.commit()
+        self.fresh_db.session.close()
+
+        with self.fresh_db as session:
+            # check that data has been inserted into the db
+            user = session.query(User).filter_by(
+                email='good@test.com',
+            ).first()
+            assert user is not None
+
+    def test_handles_unhappy_path(self) -> None:
+        try:
+            self.fresh_db.session.execute(
+                '''
+                INSERT INTO user (email, password)
+                VALUES ('good@test.com', '123')
+                '''
+            )
+            raise RuntimeError('something went wrong')
+        except RuntimeError:
+            self.fresh_db.session.rollback()
+            self.fresh_db.session.close()
+
+        with self.fresh_db as session:
+            # check that the db rolled back
+            user = session.query(User).filter_by(
+                email='good@test.com',
             ).first()
             assert user is None
