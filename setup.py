@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='api_boilerplate',
     version='0.1',
-    description='A set of DM management tools',
+    description='A python API boilerplate',
     author='Adishwar Rishi',
     author_email='adiswa123@gmail.com',
     packages=find_packages(),

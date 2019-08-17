@@ -26,7 +26,9 @@ class DbContextTestCase(AppContextTestCase):
         # wait for a db connection and then run upgrade
         wait_for_db(
             db_tcp_addr=os.environ['API_BOILERPLATE_DB_PORT_3306_TCP_ADDR'],
-            db_tcp_port=int(os.environ['API_BOILERPLATE_DB_PORT_3306_TCP_PORT']),
+            db_tcp_port=int(os.environ[
+                'API_BOILERPLATE_DB_PORT_3306_TCP_PORT'
+            ]),
         )
 
         # ensure all tables are refreshed
