@@ -9,4 +9,4 @@ RUN pip install -e .[dev]
 ADD . /code
 WORKDIR /code
 # CMD uwsgi --ini dev_app_conf.ini
-CMD python dm_management/app.py
+CMD python api_boilerplate/app.py

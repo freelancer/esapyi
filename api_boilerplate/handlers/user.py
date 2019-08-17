@@ -1,7 +1,7 @@
-from dm_management.models.user import User
-from dm_management.models.db import db
-from dm_management.utils.password import hash_password
-from dm_management.exceptions.user import (
+from api_boilerplate.models.user import User
+from api_boilerplate.models.db import db
+from api_boilerplate.utils.password import hash_password
+from api_boilerplate.exceptions.user import (
     UserNotFoundException,
     UserAlreadyExistsException,
 )

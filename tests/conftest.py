@@ -3,8 +3,8 @@ from unittest import TestCase
 from alembic import command as alembic_command
 from alembic.config import Config as AlembicConfig
 
-from dm_management.app import create_app
-from dm_management.utils.db import wait_for_db
+from api_boilerplate.app import create_app
+from api_boilerplate.utils.db import wait_for_db
 
 
 class BaseTestCase(TestCase):
@@ -25,8 +25,10 @@ class DbContextTestCase(AppContextTestCase):
 
         # wait for a db connection and then run upgrade
         wait_for_db(
-            db_tcp_addr=os.environ['DM_MANAGEMENT_DB_PORT_3306_TCP_ADDR'],
-            db_tcp_port=int(os.environ['DM_MANAGEMENT_DB_PORT_3306_TCP_PORT']),
+            db_tcp_addr=os.environ['API_BOILERPLATE_DB_PORT_3306_TCP_ADDR'],
+            db_tcp_port=int(os.environ[
+                'API_BOILERPLATE_DB_PORT_3306_TCP_PORT'
+            ]),
         )
 
         # ensure all tables are refreshed

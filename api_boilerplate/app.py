@@ -1,10 +1,10 @@
 import os
 from flask import Flask
-from dm_management.utils.base_app import BaseApp
-from dm_management.utils.db import wait_for_db
-from dm_management.healthcheck import HealthCheck
-from dm_management.v1 import V1
-from dm_management.models.db import db
+from api_boilerplate.utils.base_app import BaseApp
+from api_boilerplate.utils.db import wait_for_db
+from api_boilerplate.healthcheck import HealthCheck
+from api_boilerplate.v1 import V1
+from api_boilerplate.models.db import db
 
 
 # optional importsA
@@ -21,7 +21,7 @@ class FlaskApplication(BaseApp):
     def __init__(self) -> None:
         super().__init__(
             name=__name__,
-            config_module='dm_management.config',
+            config_module='api_boilerplate.config',
             flask_options={
                 'static_folder': 'static',
                 'static_url_path': '/static',
@@ -57,8 +57,8 @@ if __name__ == '__main__':
     assert has_alembic
     print('Waiting for the database to startup')
     wait_for_db(
-        db_tcp_addr=os.environ['DM_MANAGEMENT_DB_PORT_3306_TCP_ADDR'],
-        db_tcp_port=int(os.environ['DM_MANAGEMENT_DB_PORT_3306_TCP_PORT']),
+        db_tcp_addr=os.environ['API_BOILERPLATE_DB_PORT_3306_TCP_ADDR'],
+        db_tcp_port=int(os.environ['API_BOILERPLATE_DB_PORT_3306_TCP_PORT']),
     )
     run_migrations(flask_app)
     flask_app.run('0.0.0.0', port=8080, debug=flask_app.config['DEBUG'])

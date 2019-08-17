@@ -2,9 +2,9 @@ import logging
 from typing import Union, Optional, Tuple
 from flask import Response
 from pavlova import PavlovaParsingError
-from dm_management.utils.blueprint_container import BluepritContainer, UrlRule
-from dm_management.utils import response
-from dm_management.v1.user import (
+from api_boilerplate.utils.blueprint_container import BluepritContainer, UrlRule
+from api_boilerplate.utils import response
+from api_boilerplate.v1.user import (
     CreateOrFilterUser,
     GetUserById,
 )

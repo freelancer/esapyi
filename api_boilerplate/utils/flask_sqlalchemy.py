@@ -14,7 +14,7 @@ class SqlAlchemy:
     Usage as a Flask extension:
     ```
         from flask import Flask
-        from dm_management.utils.flask_sqlalchemy import SqlAlchemy
+        from api_boilerplate.utils.flask_sqlalchemy import SqlAlchemy
 
         db = SqlAlchemy()
         app = Flask(__name__)
@@ -29,7 +29,7 @@ class SqlAlchemy:
 
     Usage as a context manager:
     ```
-        from dm_management.utils.flask_sqlalchemy import SqlAlchemy
+        from api_boilerplate.utils.flask_sqlalchemy import SqlAlchemy
 
         db = SqlAlchemy(connection_string='sqlite:///temp/db.sqlite')
         with db as session:
@@ -38,7 +38,7 @@ class SqlAlchemy:
 
     Usage without a context manger:
     ```
-        from dm_management.utils.flask_sqlalchemy import SqlAlchemy
+        from api_boilerplate.utils.flask_sqlalchemy import SqlAlchemy
 
         db = SqlAlchemy(connection_string='sqlite:///temp/db.sqlite')
 

@@ -3,8 +3,8 @@ import pytest
 from flask import Flask
 
 from tests.conftest import AppContextTestCase, DbContextTestCase
-from dm_management.utils.flask_sqlalchemy import SqlAlchemy as FlaskSqlAlchemy
-from dm_management.models.user import User
+from api_boilerplate.utils.flask_sqlalchemy import SqlAlchemy as FlaskSqlAlchemy
+from api_boilerplate.models.user import User
 
 
 class TestBasicMethods(AppContextTestCase):

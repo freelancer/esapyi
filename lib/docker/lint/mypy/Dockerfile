@@ -8,4 +8,4 @@ RUN pip install -e .[dev]
 # Add the codebase to the image
 ADD . /code
 WORKDIR /code
-CMD mypy dm_management tests
+CMD mypy api_boilerplate tests

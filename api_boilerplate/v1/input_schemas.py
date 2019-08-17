@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from dm_management.utils.pav import Email
+from api_boilerplate.utils.pav import Email
 
 
 @dataclass
