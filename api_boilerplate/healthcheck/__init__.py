@@ -1,7 +1,7 @@
 from typing import Union, Optional, Tuple
 from flask import Response
-from dm_management.utils.blueprint_container import BluepritContainer, UrlRule
-from dm_management.healthcheck.ping import PingView
+from api_boilerplate.utils.blueprint_container import BluepritContainer, UrlRule
+from api_boilerplate.healthcheck.ping import PingView
 
 
 class HealthCheck(BluepritContainer):

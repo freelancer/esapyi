@@ -18,7 +18,7 @@ function validate_arguments {
 validate_arguments "$@"
 
 # constant for the current project name
-PROJECT_NAME='dm_management'
+PROJECT_NAME='api_boilerplate'
 DASH_PROJECT_NAME=$(echo $PROJECT_NAME | sed 's/_/-/g')
 
 # setup two project names, one with a "-" and one with "_"

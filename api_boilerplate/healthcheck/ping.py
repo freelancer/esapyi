@@ -1,5 +1,5 @@
 from flask.views import MethodView
-from dm_management.models.db import db
+from api_boilerplate.models.db import db
 
 
 class PingView(MethodView):

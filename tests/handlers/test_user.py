@@ -1,17 +1,17 @@
 import pytest
 from tests.conftest import DbContextTestCase
 
-from dm_management.handlers.user import (
+from api_boilerplate.handlers.user import (
     create_user,
     get_user_by_email,
     get_user_by_id,
 )
-from dm_management.exceptions.user import (
+from api_boilerplate.exceptions.user import (
     UserNotFoundException,
     UserAlreadyExistsException,
 )
-from dm_management.models.user import User
-from dm_management.models.db import db
+from api_boilerplate.models.user import User
+from api_boilerplate.models.db import db
 
 
 class TestCreateUser(DbContextTestCase):

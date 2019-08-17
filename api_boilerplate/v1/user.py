@@ -3,23 +3,23 @@ from dataclasses import asdict
 from flask import Response
 from flask.views import MethodView
 
-from dm_management.handlers.user import (
+from api_boilerplate.handlers.user import (
     create_user,
     get_user_by_id,
     get_user_by_email,
 )
-from dm_management.utils.pav import Pavlova
-from dm_management.v1.input_schemas import (
+from api_boilerplate.utils.pav import Pavlova
+from api_boilerplate.v1.input_schemas import (
     User as UserInput,
     UserFilter as UserFilterInput,
 )
-from dm_management.v1.output_schemas import (
+from api_boilerplate.v1.output_schemas import (
     UserSchema,
     UserListSchema,
     SingleErrorSchema,
 )
-from dm_management.utils import response
-from dm_management.exceptions.user import (
+from api_boilerplate.utils import response
+from api_boilerplate.exceptions.user import (
     UserAlreadyExistsException,
     UserNotFoundException,
 )

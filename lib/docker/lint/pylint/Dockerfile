@@ -8,4 +8,4 @@ RUN pip install -e .[dev]
 # Add the codebase to the image
 ADD . /code
 WORKDIR /code
-CMD pylint -j 0 dm_management tests
+CMD pylint -j 0 api_boilerplate tests

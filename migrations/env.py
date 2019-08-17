@@ -7,8 +7,8 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from dm_management.app import create_app
-from dm_management.models.db import Base
+from api_boilerplate.app import create_app
+from api_boilerplate.models.db import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

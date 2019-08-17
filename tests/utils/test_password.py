@@ -1,6 +1,6 @@
 from tests.conftest import BaseTestCase
 
-from dm_management.utils.password import (
+from api_boilerplate.utils.password import (
     preprocess_password,
     hash_password,
     compare_passwords,

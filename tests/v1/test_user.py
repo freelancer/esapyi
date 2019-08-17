@@ -2,8 +2,8 @@ from unittest.mock import patch, MagicMock
 
 from tests.conftest import AppContextTestCase
 
-from dm_management.models.user import User
-from dm_management.handlers.user import (
+from api_boilerplate.models.user import User
+from api_boilerplate.handlers.user import (
     create_user,
     get_user_by_email,
 )
@@ -27,7 +27,7 @@ class TestCreateUser(AppContextTestCase):
         assert response.status_code == 422
 
     @patch(
-        'dm_management.v1.user.create_user',
+        'api_boilerplate.v1.user.create_user',
         new=MagicMock(
             spec=create_user,
             return_value=user_mock,
@@ -53,7 +53,7 @@ class TestFilterUser(AppContextTestCase):
         assert response.status_code == 422
 
     @patch(
-        'dm_management.v1.user.get_user_by_email',
+        'api_boilerplate.v1.user.get_user_by_email',
         new=MagicMock(
             spec=get_user_by_email,
             return_value=user_mock,

@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='dm_management',
+    name='api_boilerplate',
     version='0.1',
     description='A set of DM management tools',
     author='Adishwar Rishi',

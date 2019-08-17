@@ -1,8 +1,8 @@
 from typing import List
 from dataclasses import dataclass
 from pavlova import PavlovaParsingError
-from dm_management.utils.pav import Pavlova, Email
-from dm_management.models.user import User as UserModel
+from api_boilerplate.utils.pav import Pavlova, Email
+from api_boilerplate.models.user import User as UserModel
 
 
 class OutputSchemaBuildException(Exception):

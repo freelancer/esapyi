@@ -1,6 +1,6 @@
 from typing import Optional
 from flask import Flask
-from dm_management.utils.json_encoder import CustomJSONEncoder
+from api_boilerplate.utils.json_encoder import CustomJSONEncoder
 
 
 class BaseApp:

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, UniqueConstraint
 
-from dm_management.models.db import Base
+from api_boilerplate.models.db import Base
 
 
 class User(Base):
