@@ -11,6 +11,19 @@ class SqlAlchemy:
     This class is a replacement for Flask-SqlAlchemy
     It is heavily inspired by the work done by Chris Trotman from Escrow.com
 
+    Problems with Flask-SqlAlchemy:
+    - Forces you to use a connection pool with MySQL. This can't be disabled,
+      and you have to work around it by monkey patching the internals.
+    - It intermingles the models with the connection setup, and tries to handle
+      multiple database binds, but somehow fails spectacularly and makes it
+      more complicated than required.
+    - It assumes you're manually committing or rolling back, and you have to
+      explicitly turn on commiting or rolling back at the end of a request.
+
+    This simple library fixes these issues by providing a much simpler
+    interface for managing your SqlAlchemy connections.
+
+
     Usage as a Flask extension:
     ```
         from flask import Flask
