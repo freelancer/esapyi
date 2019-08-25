@@ -23,6 +23,7 @@ setup(
             'mypy',
             'alembic',
             'pytest',
+            'pytest-cov',
         ],
     },
 )
