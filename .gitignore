@@ -360,3 +360,8 @@ override.tf.json
 .history
 
 # End of https://www.gitignore.io/api/node,macos,linux,flask,puppet,packer,python,terraform,visualstudiocode
+
+
+# Start of custom gitignore
+.logs/*
+!.logs/.gitkeep

@@ -1,4 +1,11 @@
+import os
+import logging
+from logging import Handler as BaseLogHandler, StreamHandler
+from logging.handlers import (
+    RotatingFileHandler,
+)
 from typing import Optional
+
 from flask import Flask
 from api_boilerplate.utils.json_encoder import CustomJSONEncoder
 
@@ -20,6 +27,7 @@ class BaseApp:
         self.app.json_encoder = CustomJSONEncoder
 
         self.configure()
+        self.setup_logging()
 
     def resgister_blueprints(self) -> None:
         raise NotImplementedError
@@ -48,3 +56,20 @@ class BaseApp:
             self.app.config.from_json(
                 f'{external_config_directory}/config.json'
             )
+
+    def setup_logging(self) -> None:
+        handler: Optional[BaseLogHandler]
+        log_directory = self.app.config['LOG_DIRECTORY']
+        log_file_name = self.app.config['LOG_FILE_NAME']
+
+        if log_directory and log_file_name:
+            handler = RotatingFileHandler(
+                filename=os.path.join(log_directory, log_file_name),
+                maxBytes=1000000,  # 1mb
+                backupCount=10,
+            )
+        else:
+            handler = StreamHandler()
+
+        handler.setLevel(logging.INFO)
+        logging.getLogger().addHandler(handler)
