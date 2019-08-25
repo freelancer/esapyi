@@ -3,8 +3,8 @@ import os
 DEBUG = True
 ENV = 'development'
 
-LOG_DIRECTORY='/code/.logs'
-LOG_FILE_NAME='api_boilerplate.log'
+LOG_DIRECTORY = '/code/.logs'
+LOG_FILE_NAME = 'api_boilerplate.log'
 
 SQLALCHEMY_DB_URI = '{engine}://{user}:{pwd}@{addr}:{port}/{db_name}'.format(
     engine='mysql+pymysql',

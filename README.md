@@ -1,9 +1,9 @@
-l# Python 3.7 API boilerplate
+# esapyi
 <div align="center"><strong><em>
 A dockerized and production ready python API template with no setup required.
 </em></strong></div>
 
-TODO some description high level overview of the project
+This project aims to provide a pre-configured python API server template based on the Flask python framework.
 
 | Table of Contents                                                                           |
 | ------------------------------------------------------------------------------------------- |
@@ -19,7 +19,31 @@ TODO some description high level overview of the project
 4. Start the python server using `./run.sh dev`
 
 ## The Hitchhicker's Guide to `api_boilerplate`
-TODO
+This section will take you through the following
+
+* [Project Structure](#Project-Structure)
+* Writing versioned APIs (TODO)
+
+### Project Structure
+
+<pre><font color="#729FCF"><b>api_boilerplate</b></font>
+├── app.py
+├── <font color="#729FCF"><b>config</b></font>
+│   ├── __init__.py
+│   ├── local_development.py
+│   ├── prod.py
+│   └── testing.py
+├── <font color="#729FCF"><b>exceptions</b></font>
+├── <font color="#729FCF"><b>handlers</b></font>
+├── <font color="#729FCF"><b>healthcheck</b></font>
+├── <font color="#729FCF"><b>models</b></font>
+├── <font color="#729FCF"><b>utils</b></font>
+└── <font color="#729FCF"><b>v1</b></font>
+    ├── <font color="#729FCF"><b>exceptions</b></font>
+    ├── <font color="#729FCF"><b>handlers</b></font>
+    ├── input_schemas.py
+    ├── output_schemas.py
+</pre>
 
 ## Developer Guide
 This section goes through the various tools procedures a developer would need when developing using this setup.
@@ -29,7 +53,6 @@ This section goes through the various tools procedures a developer would need wh
 - [Linting](#Linting): The linter setup and now to customize it
 - [Testing](#Testing): Getting the most out of the test setup
 - [Database Migrations](#Database-Migrations): How to track and alter the database schema
-- [Python Servers](#Python-Servers): Understanding flask and uWSGI
 - [Production Deployment](#Production-Deployment): The idea way of running the production server
 
 ### Commands Quickstart
@@ -97,11 +120,9 @@ first_name = Column(Text, nullable=False)
 ```
 4. That's it! The user table in the local database now has a first_name column. Remember to commit the generated migration file to git.
 
-### Python Servers
-- local development uses flask
-- flask is multi-threaded
-- prod uses uwsgi (allows for load balancing and mass multi-threading)
-
 ### Production Deployment
-- the prod dockerfile
-- uwsgi and changing the config
+
+It is recommended that you deploy this API as a docker container on your production server.
+In order to help build this container there is a production ready [dockerfile](lib/docker/prod_app/Dockerfile) provided.
+
+In production, the python app is run using [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest/). The configuration for this uWSGI server is in [uwsgi_prod_app_config.ini](uwsgi_prod_app_config.ini).
