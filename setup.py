@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='api_boilerplate',
+    name='esapyi',
     version='0.1',
     description='A python API boilerplate',
     author='Adishwar Rishi',
