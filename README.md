@@ -8,14 +8,14 @@ This project aims to provide a pre-configured python API server template based o
 | Table of Contents                                                                           |
 | ------------------------------------------------------------------------------------------- |
 | [Quickstart Guide](#Quickstart-guide)                                                       |
-| [The Hitchhicker's Guide to `api_boilerplate`](#The-Hitchhickers-Guide-to-api_boilerplate) |
+| [The Hitchhicker's Guide to `api_boilerplate`](#The-Hitchhickers-Guide-to-api_boilerplate)  |
 | [Developer Guide](#Developer-Guide)                                                         |
 
 ## Quickstart guide
 
 1. Ensure that you have [docker](https://docs.docker.com/install/) installed on your system.
 2. Clone this repository using `git clone https://github.com/AdiRishi/api_boilerplate.git`
-3. (Optional) Pick a new name for your project and run `./rename_project.sh "my_project_name"`
+3. (Optional) Pick a new name for your project and run `./project_rename.sh "my_project_name"`
 4. Start the python server using `./run.sh dev`
 
 ## The Hitchhicker's Guide to `api_boilerplate`
