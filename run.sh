@@ -146,20 +146,6 @@ function python_test {
         api-boilerplate-test-pytest:$GIT_COMMIT
 }
 
-while getopts ":c" opt; do
-    case $opt in
-        c)
-            echo "-c run with $OPTARG"
-            ;;
-        \?)
-            echo "Invalid option: -$OPTARG" >&2
-            ;;
-        :)
-            echo "Option -$OPTARG requires an argument" >&2
-            ;;
-    esac
-done
-
 case ${@:$OPTIND:1} in
     "lint")
         python_lint
