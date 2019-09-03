@@ -7,7 +7,7 @@ from api_boilerplate.v1 import V1
 from api_boilerplate.models.db import db
 
 
-# optional importsA
+# optional imports
 has_alembic = False
 try:
     from alembic import command as alembic_command

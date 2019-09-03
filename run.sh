@@ -94,12 +94,12 @@ function dev_app {
         api-boilerplate-dev-app:$GIT_COMMIT
 }
 
-# start the python server using the prod config
+# start the python app using the production uWSGI server
 function prod_app {
     docker_build lib/docker/prod_app/Dockerfile api-boilerplate-dev-app
     kill_if_exists api-boilerplate-dev-app
     dev_utilities
-    print_title "Starting Flask App"
+    print_title "Starting Flask App with uWSGI"
     docker run \
         -ti \
         --rm \
