@@ -1,4 +1,4 @@
-# esapyi
+# esapyi &middot; [![Build Status](https://travis-ci.org/freelancer/esapyi.svg?branch=master)](https://travis-ci.org/freelancer/esapyi)
 <div align="center"><strong><em>
 A dockerized and production ready python API template with no setup required.
 </em></strong></div>
