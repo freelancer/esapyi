@@ -23,8 +23,8 @@ class UserSchema:
                 'email': model.email,
                 'password': model.password,
             }, UserSchema)
-        except PavlovaParsingError:
-            raise OutputSchemaBuildException()
+        except PavlovaParsingError as pav_error:
+            raise OutputSchemaBuildException() from pav_error
 
 
 @dataclass

@@ -13,11 +13,11 @@ setup(
     install_requires=[
         'Flask==1.1.2',
         'mypy_extensions',
-        'uWSGI==2.0.18',
-        'SQLAlchemy==1.3.16',
-        'PyMySQL==0.9.3',
-        'cryptography==2.9.2',
-        'bcrypt==3.1.7',
+        'uWSGI==2.0.19.1',
+        'SQLAlchemy==1.3.19',
+        'PyMySQL==0.10.1',
+        'cryptography==3.1.1',
+        'bcrypt==3.2.0',
         'pavlova==0.1.3',
     ],
     extras_require={
