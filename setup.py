@@ -16,7 +16,7 @@ setup(
         'uWSGI==2.0.19.1',
         'SQLAlchemy==1.3.19',
         'PyMySQL==0.10.1',
-        'cryptography==3.1.1',
+        'cryptography==3.2',
         'bcrypt==3.2.0',
         'pavlova==0.1.3',
     ],
