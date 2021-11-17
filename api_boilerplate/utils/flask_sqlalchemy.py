@@ -1,4 +1,4 @@
-from typing import Optional, Union, Any
+from typing import Optional, Any
 from flask import Flask, has_request_context, has_app_context
 from flask.globals import _app_ctx_stack, g as flask_g
 from sqlalchemy import create_engine
@@ -156,7 +156,7 @@ class SqlAlchemy:
 
     def handle_teardown(
             self,
-            error_or_code: Optional[Union[int, Exception]],
+            error_or_code: Optional[BaseException] = None,
     ) -> None:
         self.shutdown_session(
             rollback=(error_or_code is not None),

@@ -20,7 +20,7 @@ class BaseApp:
             flask_options: Optional[dict] = None
     ) -> None:
         if flask_options is None:
-            flask_options = dict()
+            flask_options = {}
         self.config_module = config_module
 
         self.app = Flask(name, **flask_options)

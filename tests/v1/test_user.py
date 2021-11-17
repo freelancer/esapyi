@@ -20,7 +20,7 @@ class TestCreateUser(AppContextTestCase):
     def test_returns_422_when_missing_fields(self) -> None:
         response = self.client.post(
             '/v1/user',
-            data={
+            json={
                 'email': 'test@test.com',
             }
         )
@@ -36,7 +36,7 @@ class TestCreateUser(AppContextTestCase):
     def test_returns_200_on_success(self) -> None:
         response = self.client.post(
             '/v1/user',
-            data={
+            json={
                 'email': 'test@test.com',
                 'password': 'pwd',
             }
@@ -62,11 +62,12 @@ class TestFilterUser(AppContextTestCase):
     def test_can_find_by_email(self) -> None:
         response = self.client.get(
             '/v1/user',
-            data={
+            json={
                 'email': 'test@test.com',
             }
         )
         assert response.status_code == 200
         response_data = response.json
+        assert response_data is not None
         assert 'users' in response_data
         assert len(response_data['users']) == 1

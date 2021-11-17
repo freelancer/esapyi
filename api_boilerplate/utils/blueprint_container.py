@@ -1,4 +1,4 @@
-from typing import List, Type, Optional, Tuple, Union, NamedTuple
+from typing import List, Type, Optional, Tuple, NamedTuple, no_type_check
 from flask import Blueprint, Response
 from flask.views import MethodView
 
@@ -15,7 +15,7 @@ class BluepritContainer:
     error_types: List[Type[Exception]] = []
 
     def __init__(self, url_prefix: str) -> None:
-        self.name = f'{self.__class__.__name__}.{url_prefix}'
+        self.name = f'{self.__class__.__name__}-{url_prefix}'
         self.blueprint = Blueprint(
             name=self.name,
             import_name=__name__,
@@ -31,8 +31,9 @@ class BluepritContainer:
         for error in self.error_types:
             self.blueprint.register_error_handler(error, self.error_handler)
 
+    @no_type_check
     def error_handler(
             self,
-            error_or_code: Union[int, Exception],
+            error_or_code: Exception,
     ) -> Optional[Tuple[Response, int]]:
         raise NotImplementedError
