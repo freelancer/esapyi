@@ -1,7 +1,6 @@
-from typing import Tuple
 from dataclasses import asdict
-from flask import Response
 from flask.views import MethodView
+from flask.typing import ResponseReturnValue
 
 from api_boilerplate.handlers.user import (
     create_user,
@@ -27,7 +26,7 @@ from api_boilerplate.exceptions.user import (
 
 class CreateOrFilterUser(MethodView):
     @Pavlova.use(UserFilterInput)
-    def get(self, data: UserFilterInput) -> Tuple[Response, int]:
+    def get(self, data: UserFilterInput) -> ResponseReturnValue:
         try:
             user = get_user_by_email(email=data.email)
             return response.ok(asdict(UserListSchema(users=[
@@ -39,7 +38,7 @@ class CreateOrFilterUser(MethodView):
             )))
 
     @Pavlova.use(UserInput)
-    def post(self, data: UserInput) -> Tuple[Response, int]:
+    def post(self, data: UserInput) -> ResponseReturnValue:
         try:
             user = create_user(
                 email=data.email,
@@ -53,7 +52,7 @@ class CreateOrFilterUser(MethodView):
 
 
 class GetUserById(MethodView):
-    def get(self, user_id: int) -> Tuple[Response, int]:
+    def get(self, user_id: int) -> ResponseReturnValue:
         try:
             user = get_user_by_id(user_id=user_id)
             return response.ok(asdict(UserSchema.from_model(user)))
