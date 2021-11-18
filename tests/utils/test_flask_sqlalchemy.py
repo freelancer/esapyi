@@ -24,7 +24,7 @@ class TestBasicMethods(AppContextTestCase):
         session_mock.commit.assert_not_called()
 
         # test rollback = False
-        session_mock.reset_mock(return_value=True, side_effect=True)
+        session_mock.reset_mock()
         db.shutdown_session(rollback=False)
         session_mock.rollback.assert_not_called()
         session_mock.commit.assert_called_once()
