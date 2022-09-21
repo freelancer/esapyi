@@ -4,6 +4,7 @@ from logging import Handler as BaseLogHandler, StreamHandler
 from logging.handlers import (
     RotatingFileHandler,
 )
+import json
 from typing import Optional
 
 from flask import Flask
@@ -53,8 +54,9 @@ class BaseApp:
             'EXTERNAL_CONFIG_DIRECTORY'
         ]
         if external_config_directory:
-            self.app.config.from_json(
-                f'{external_config_directory}/config.json'
+            self.app.config.from_file(
+                filename=f'{external_config_directory}/config.json',
+                load=json.load
             )
 
     def setup_logging(self) -> None:

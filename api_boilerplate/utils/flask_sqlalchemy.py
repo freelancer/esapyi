@@ -1,6 +1,6 @@
 from typing import Optional, Any
 from flask import Flask, has_request_context, has_app_context
-from flask.globals import _app_ctx_stack, g as flask_g
+from flask.globals import g as flask_g
 from sqlalchemy import create_engine
 from sqlalchemy.pool import Pool
 from sqlalchemy.engine import Engine
@@ -148,10 +148,8 @@ class SqlAlchemy:
 
     @staticmethod
     def get_flask_context() -> object:
-        if has_request_context():
+        if has_app_context() or  has_request_context():
             return flask_g
-        if has_app_context():
-            return _app_ctx_stack.top
         raise Exception('Not inside flask context')
 
     def handle_teardown(
