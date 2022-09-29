@@ -9,13 +9,12 @@ RUN set -e; \
     apt-get update \
     && apt-get install -y --no-install-recommends gcc libc-dev \
     && pip install poetry==1.2.1 \
-    && poetry install --without dev \
+    && poetry install \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get purge -y --auto-remove gcc libc-dev
 
 # Add the codebase to the image
 COPY . /code
 # Re-run the install to ensure api_boilerplate is installed as a top-level package
-RUN poetry install --without dev
+RUN poetry install
 ENTRYPOINT [ "lib/docker/entrypoint.sh" ]
-CMD ["uwsgi", "--ini", "uwsgi_prod_app_config.ini"]

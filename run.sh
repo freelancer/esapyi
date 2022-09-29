@@ -11,7 +11,7 @@ function docker_build {
 }
 
 function docker_run {
-    docker run --rm --user root:root --name "$1" --volume `pwd`:/code $1:$GIT_COMMIT
+    docker run -ti --rm --user root:root --name "$1" $1:$GIT_COMMIT "${*:2}"
 }
 
 function kill_if_exists {
@@ -22,24 +22,14 @@ function find_container {
     docker ps --quiet --all --filter name="$1"
 }
 
-function kill_container {
-    docker rm -f $1
-}
-
 function print_title {
     echo "=============================================="
     echo $1
     echo "=============================================="
 }
 
-function python_lint {
-    docker_build lib/docker/lint/mypy/Dockerfile api-boilerplate-lint-mypy
-    print_title "Running mypy"
-    docker_run api-boilerplate-lint-mypy
-
-    docker_build lib/docker/lint/pylint/Dockerfile api-boilerplate-lint-pylint
-    print_title "Running pylint"
-    docker_run api-boilerplate-lint-pylint
+function dev_utilities {
+    db
 }
 
 function db {
@@ -58,10 +48,7 @@ function db {
 }
 
 function testing_db {
-    DB_CONTAINER=$(find_container api-boilerplate-mysql-testing-db)
-    if [[ $DB_CONTAINER != "" ]]; then
-        kill_container api-boilerplate-mysql-testing-db
-    fi
+    kill_if_exists api-boilerplate-mysql-testing-db
 
     docker create \
         --name api-boilerplate-mysql-testing-db \
@@ -73,13 +60,36 @@ function testing_db {
     docker start api-boilerplate-mysql-testing-db
 }
 
-function dev_utilities {
-    db
+function attach_to_dev_db {
+    dev_utilities
+    docker exec -ti api-boilerplate-mysql-db mysql -proot
+}
+
+function python_lint {
+    docker_build lib/docker/dev/Dockerfile api-boilerplate-lint-runtime
+    print_title "Running mypy"
+    docker_run api-boilerplate-lint-runtime mypy api_boilerplate tests
+    print_title "Running pylint"
+    docker_run api-boilerplate-lint-runtime pylint -j 0 api_boilerplate tests
+}
+
+function python_test {
+    testing_db
+    docker_build lib/docker/dev/Dockerfile api-boilerplate-dev-runtime
+    print_title "Running pytest"
+    docker run \
+        -ti \
+        --rm \
+        --user root:root \
+        --link api-boilerplate-mysql-testing-db:api-boilerplate-db \
+        --env REALM=testing \
+        --name api-boilerplate-test-runtime \
+        api-boilerplate-dev-runtime:$GIT_COMMIT pytest tests
 }
 
 function dev_app {
-    docker_build lib/docker/dev_app/Dockerfile api-boilerplate-dev-app
-    kill_if_exists api-boilerplate-dev-app
+    docker_build lib/docker/dev/Dockerfile api-boilerplate-dev-runtime
+    kill_if_exists api-boilerplate-dev-runtime
     dev_utilities
     print_title "Starting Flask App"
     docker run \
@@ -90,14 +100,27 @@ function dev_app {
         --publish 8080:8080 \
         --link api-boilerplate-mysql-db:api-boilerplate-db \
         --env REALM=local_development \
-        --name api-boilerplate-dev-app \
-        api-boilerplate-dev-app:$GIT_COMMIT
+        --name api-boilerplate-dev-runtime \
+        api-boilerplate-dev-runtime:$GIT_COMMIT python api_boilerplate/app.py python api_boilerplate/app.py
+}
+
+function alembic {
+    docker_build lib/docker/dev/Dockerfile api-boilerplate-dev-runtime
+    dev_utilities
+    docker run \
+        --rm \
+        --user root:root \
+        --volume `pwd`:/code \
+        --env REALM=local_development \
+        --link api-boilerplate-mysql-db:api-boilerplate-db \
+        --name api-boilerplate-alembic-runtime \
+        api-boilerplate-dev-runtime:$GIT_COMMIT alembic $@
 }
 
 # start the python app using the production uWSGI server
 function prod_app {
-    docker_build lib/docker/prod_app/Dockerfile api-boilerplate-dev-app
-    kill_if_exists api-boilerplate-dev-app
+    docker_build lib/docker/prod_app/Dockerfile api-boilerplate-prod-runtime
+    kill_if_exists api-boilerplate-prod-runtime
     dev_utilities
     print_title "Starting Flask App with uWSGI"
     docker run \
@@ -108,42 +131,8 @@ function prod_app {
         --publish 8080:8080 \
         --link api-boilerplate-mysql-db:api-boilerplate-db \
         --env REALM=local_development \
-        --name api-boilerplate-dev-app \
-        api-boilerplate-dev-app:$GIT_COMMIT
-}
-
-function alembic {
-    docker_build lib/docker/alembic/Dockerfile api-boilerplate-alembic
-    dev_utilities
-    docker run \
-        --rm \
-        --user root:root \
-        --volume `pwd`:/code \
-        --env REALM=local_development \
-        --link api-boilerplate-mysql-db:api-boilerplate-db \
-        --name api-boilerplate-alembic \
-        api-boilerplate-alembic:$GIT_COMMIT \
-        alembic $@
-}
-
-function attach_to_dev_db {
-    dev_utilities
-    docker exec -ti api-boilerplate-mysql-db mysql -proot
-}
-
-function python_test {
-    testing_db
-    docker_build lib/docker/test/Dockerfile api-boilerplate-test-pytest
-    print_title "Running pytest"
-    docker run \
-        -ti \
-        --rm \
-        --user root:root \
-        --volume `pwd`:/code \
-        --link api-boilerplate-mysql-testing-db:api-boilerplate-db \
-        --env REALM=testing \
-        --name api-boilerplate-test-pytest \
-        api-boilerplate-test-pytest:$GIT_COMMIT
+        --name api-boilerplate-prod-app \
+        api-boilerplate-prod-runtime:$GIT_COMMIT
 }
 
 case ${@:$OPTIND:1} in
@@ -167,11 +156,11 @@ case ${@:$OPTIND:1} in
                 ;;
         esac
         ;;
-    "prod")
-        prod_app
-        ;;
     "alembic")
         alembic ${@:$OPTIND+1}
+        ;;
+    "prod")
+        prod_app
         ;;
     *)
         echo "Invalid command"
