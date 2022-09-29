@@ -19,10 +19,11 @@ pavlova = "^0.1.3"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^2.15.3"
-mypy = "^0.971"
+mypy = "^0.981"
 alembic = "^1.8.1"
 pytest = "^7.1.3"
-pytest-cov = "^3.0.0"
+pytest-cov = "^4.0.0"
+poetryup = "^0.12.0"
 
 [build-system]
 requires = ["poetry-core"]
