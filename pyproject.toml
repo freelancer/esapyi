@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "api_boilerplate"
-version = "1.0"
+version = "2.0"
 description = "A dockerized and production ready python API template with no setup required."
 authors = ["Adishwar Rishi <adiswa123@gmail.com>"]
 license = "LGPL-3.0"

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='api_boilerplate',
-    version='1.0',
+    version='2.0',
     description=(
         'A dockerized and production ready python API template with no '
         'setup required.'
