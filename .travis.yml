@@ -1,8 +1,0 @@
-language: minimal
-
-services:
-  - docker
-
-script:
-- ./run.sh lint
-- ./run.sh test

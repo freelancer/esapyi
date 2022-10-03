@@ -5,13 +5,18 @@ set -e
 
 # Get the current git commit for tagging purposes
 GIT_COMMIT=$(git rev-parse HEAD)
+if [ -t 1 ] ; then
+    DOCKER_TERMINAL_FLAGS="-ti"
+else
+    DOCKER_TERMINAL_FLAGS=""
+fi
 
 function docker_build {
     docker build --file $1 --tag $2:$GIT_COMMIT .
 }
 
 function docker_run {
-    docker run -ti --rm --user root:root --name "$1" $1:$GIT_COMMIT "${*:2}"
+    docker run $DOCKER_TERMINAL_FLAGS --rm --user root:root --name "$1" $1:$GIT_COMMIT "${*:2}"
 }
 
 function kill_if_exists {
@@ -62,7 +67,7 @@ function testing_db {
 
 function attach_to_dev_db {
     dev_utilities
-    docker exec -ti api-boilerplate-mysql-db mysql -proot
+    docker exec $DOCKER_TERMINAL_FLAGS api-boilerplate-mysql-db mysql -proot
 }
 
 function python_lint {
@@ -78,7 +83,7 @@ function python_test {
     docker_build lib/docker/dev/Dockerfile api-boilerplate-dev-runtime
     print_title "Running pytest"
     docker run \
-        -ti \
+        $DOCKER_TERMINAL_FLAGS \
         --rm \
         --user root:root \
         --link api-boilerplate-mysql-testing-db:api-boilerplate-db \
@@ -93,7 +98,7 @@ function dev_app {
     dev_utilities
     print_title "Starting Flask App"
     docker run \
-        -ti \
+        $DOCKER_TERMINAL_FLAGS \
         --rm \
         --user root:root \
         --volume `pwd`:/code \
@@ -124,7 +129,7 @@ function prod_app {
     dev_utilities
     print_title "Starting Flask App with uWSGI"
     docker run \
-        -ti \
+        $DOCKER_TERMINAL_FLAGS \
         --rm \
         --user root:root \
         --volume `pwd`:/code \
