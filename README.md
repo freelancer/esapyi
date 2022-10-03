@@ -1,4 +1,4 @@
-# esapyi &middot; [![Build Status](https://travis-ci.org/freelancer/esapyi.svg?branch=master)](https://travis-ci.org/freelancer/esapyi)
+# esapyi &middot; [![CI Tests](https://github.com/freelancer/esapyi/actions/workflows/ci.yml/badge.svg)](https://github.com/freelancer/esapyi/actions/workflows/ci.yml)
 <div align="center"><strong><em>
 A dockerized and production ready python API template with no setup required.
 </em></strong></div>
