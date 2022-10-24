@@ -1,7 +1,7 @@
-from flask.json import JSONEncoder
+from flask.json.provider import DefaultJSONProvider
 
 
-class CustomJSONEncoder(JSONEncoder):
+class CustomJSONEncoder(DefaultJSONProvider):
     '''
-    Can be used to override behaviour for encoding all json strings
+    Can be used to override behavior for encoding all json strings
     '''

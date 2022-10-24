@@ -73,7 +73,14 @@ function attach_to_dev_db {
 function python_lint {
     docker_build lib/docker/dev/Dockerfile api-boilerplate-lint-runtime
     print_title "Running mypy"
-    docker_run api-boilerplate-lint-runtime mypy api_boilerplate tests
+    mkdir -p .mypy_cache
+        docker run \
+        $DOCKER_TERMINAL_FLAGS \
+        --rm \
+        --user root:root \
+        --volume `pwd`/.mypy_cache:/code/.mypy_cache \
+        --name escrow-qa-environments-lint-runtime \
+        api-boilerplate-lint-runtime:$GIT_COMMIT mypy api_boilerplate tests
     print_title "Running pylint"
     docker_run api-boilerplate-lint-runtime pylint -j 0 api_boilerplate tests
 }
@@ -101,7 +108,7 @@ function dev_app {
         $DOCKER_TERMINAL_FLAGS \
         --rm \
         --user root:root \
-        --volume `pwd`:/code \
+        --volume `pwd`/api_boilerplate:/code/api_boilerplate \
         --publish 8080:8080 \
         --link api-boilerplate-mysql-db:api-boilerplate-db \
         --env REALM=local_development \
@@ -115,7 +122,6 @@ function alembic {
     docker run \
         --rm \
         --user root:root \
-        --volume `pwd`:/code \
         --env REALM=local_development \
         --link api-boilerplate-mysql-db:api-boilerplate-db \
         --name api-boilerplate-alembic-runtime \
@@ -132,7 +138,7 @@ function prod_app {
         $DOCKER_TERMINAL_FLAGS \
         --rm \
         --user root:root \
-        --volume `pwd`:/code \
+        --volume `pwd`/api_boilerplate:/code/api_boilerplate \
         --publish 8080:8080 \
         --link api-boilerplate-mysql-db:api-boilerplate-db \
         --env REALM=local_development \

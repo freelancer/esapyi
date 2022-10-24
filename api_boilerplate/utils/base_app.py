@@ -25,12 +25,12 @@ class BaseApp:
         self.config_module = config_module
 
         self.app = Flask(name, **flask_options)
-        self.app.json_encoder = CustomJSONEncoder
+        self.app.json = CustomJSONEncoder(self.app)
 
         self.configure()
         self.setup_logging()
 
-    def resgister_blueprints(self) -> None:
+    def register_blueprints(self) -> None:
         raise NotImplementedError
 
     def configure(self) -> None:

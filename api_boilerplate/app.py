@@ -34,9 +34,9 @@ class FlaskApplication(BaseApp):
             config_connection_key='SQLALCHEMY_DB_URI',
         )
 
-        self.resgister_blueprints()
+        self.register_blueprints()
 
-    def resgister_blueprints(self) -> None:
+    def register_blueprints(self) -> None:
         self.app.register_blueprint(HealthCheck(url_prefix='').blueprint)
         self.app.register_blueprint(V1(url_prefix='/v1').blueprint)
 

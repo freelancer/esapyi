@@ -2,7 +2,7 @@ import logging
 from typing import Union, Optional, Tuple
 from flask import Response
 from pavlova import PavlovaParsingError
-from api_boilerplate.utils.blueprint_container import BluepritContainer, UrlRule
+from api_boilerplate.utils.blueprint_container import BlueprintContainer, UrlRule
 from api_boilerplate.utils import response
 from api_boilerplate.v1.user import (
     CreateOrFilterUser,
@@ -10,7 +10,7 @@ from api_boilerplate.v1.user import (
 )
 
 
-class V1(BluepritContainer):
+class V1(BlueprintContainer):
     url_rules = [
         UrlRule(
             route='/user',

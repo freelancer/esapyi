@@ -9,7 +9,7 @@ class UrlRule(NamedTuple):
     view: Type[MethodView]
 
 
-class BluepritContainer:
+class BlueprintContainer:
     blueprint: Blueprint
     url_rules: List[UrlRule] = []
     error_types: List[Type[Exception]] = []
