@@ -8,7 +8,7 @@ COPY setup.py pyproject.toml poetry.lock /code/
 RUN set -e; \
     apt-get update \
     && apt-get install -y --no-install-recommends gcc libc-dev \
-    && pip install poetry==1.2.1 \
+    && pip install poetry==1.2.2 \
     && poetry install --without dev \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get purge -y --auto-remove gcc libc-dev
