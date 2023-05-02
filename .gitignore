@@ -365,3 +365,6 @@ override.tf.json
 # Start of custom gitignore
 .logs/*
 !.logs/.gitkeep
+
+# ruff
+.ruff_cache

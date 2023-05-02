@@ -81,8 +81,15 @@ function python_lint {
         --volume `pwd`/.mypy_cache:/code/.mypy_cache \
         --name escrow-qa-environments-lint-runtime \
         api-boilerplate-lint-runtime:$GIT_COMMIT mypy api_boilerplate tests
-    print_title "Running pylint"
-    docker_run api-boilerplate-lint-runtime pylint -j 0 api_boilerplate tests
+    print_title "Running ruff"
+        mkdir -p .ruff_cache
+        docker run \
+        $DOCKER_TERMINAL_FLAGS \
+        --rm \
+        --user root:root \
+        --volume `pwd`/.ruff_cache:/code/.ruff_cache \
+        --name escrow-qa-environments-lint-runtime \
+        api-boilerplate-lint-runtime:$GIT_COMMIT ruff check .
 }
 
 function python_test {
