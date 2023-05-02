@@ -9,7 +9,6 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.8.0"
 Flask = "^2.3.2"
-mypy-extensions = "^1.0.0"
 uWSGI = "^2.0.21"
 SQLAlchemy = "^2.0.12"
 PyMySQL = "^1.0.3"
@@ -18,12 +17,12 @@ bcrypt = "^4.0.1"
 pavlova = "^0.1.3"
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^1.2.0"
 alembic = "^1.10.4"
 pytest = "^7.3.1"
 pytest-cov = "^4.0.0"
 poetryup = "^0.12.7"
 ruff = "^0.0.263"
+pyright = "^1.1.305"
 
 [build-system]
 requires = ["poetry-core"]
@@ -31,3 +30,9 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
 line-length = 100
+
+[tool.pyright]
+include = ["api_boilerplate", "tests"]
+reportMissingImports = true
+reportMissingTypeStubs = false
+pythonVersion = "3.11"

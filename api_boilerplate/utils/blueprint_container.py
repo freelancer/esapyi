@@ -1,5 +1,6 @@
-from typing import List, Type, Optional, Tuple, NamedTuple, no_type_check
-from flask import Blueprint, Response
+from typing import List, Type, NamedTuple
+from flask import Blueprint
+from flask.typing import ResponseReturnValue
 from flask.views import MethodView
 
 
@@ -31,9 +32,8 @@ class BlueprintContainer:
         for error in self.error_types:
             self.blueprint.register_error_handler(error, self.error_handler)
 
-    @no_type_check
     def error_handler(
             self,
             error_or_code: Exception,
-    ) -> Optional[Tuple[Response, int]]:
+    ) -> ResponseReturnValue:
         raise NotImplementedError

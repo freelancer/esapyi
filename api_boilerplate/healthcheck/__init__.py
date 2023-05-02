@@ -1,6 +1,7 @@
-from typing import Union, Optional, Tuple
-from flask import Response
+from typing import Union
+from flask.typing import ResponseReturnValue
 from api_boilerplate.utils.blueprint_container import BlueprintContainer, UrlRule
+from api_boilerplate.utils.response import error
 from api_boilerplate.healthcheck.ping import PingView
 
 
@@ -16,5 +17,5 @@ class HealthCheck(BlueprintContainer):
     def error_handler(
             self,
             error_or_code: Union[int, Exception],
-    ) -> Optional[Tuple[Response, int]]:
-        pass
+    ) -> ResponseReturnValue:
+        return error(str(error_or_code))

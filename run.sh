@@ -72,15 +72,8 @@ function attach_to_dev_db {
 
 function python_lint {
     docker_build lib/docker/dev/Dockerfile api-boilerplate-lint-runtime
-    print_title "Running mypy"
-    mkdir -p .mypy_cache
-        docker run \
-        $DOCKER_TERMINAL_FLAGS \
-        --rm \
-        --user root:root \
-        --volume `pwd`/.mypy_cache:/code/.mypy_cache \
-        --name escrow-qa-environments-lint-runtime \
-        api-boilerplate-lint-runtime:$GIT_COMMIT mypy api_boilerplate tests
+    print_title "Running pyright"
+    docker_run api-boilerplate-lint-runtime pyright
     print_title "Running ruff"
         mkdir -p .ruff_cache
         docker run \

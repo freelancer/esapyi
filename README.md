@@ -68,12 +68,12 @@ All of the common development tasks that need to be performed are done through t
 
 ### Linting
 This project uses 2 main linting programs
-- [mypy](http://www.mypy-lang.org/) - a static type-checker
+- [pyright](https://microsoft.github.io/pyright/#/) - a static type-checker
 - [ruff](https://ruff.rs/) - a code quality checker
 
 If you want to customize the lint configuration, modify the following files
-- [mypy.ini](mypy.ini) - to customize the mypy setup
-- [ruff](pyproject.toml) - to customize the ruff setup
+- [pyproject.toml](pyproject.toml) - to customize the mypy setup
+- [pyproject.toml](pyproject.toml) - to customize the ruff setup
 
 ### Testing
 This project uses the [pytest](https://docs.pytest.org/en/latest/) framework for writing and maintaining unit tests.
