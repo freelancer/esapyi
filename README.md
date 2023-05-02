@@ -69,13 +69,11 @@ All of the common development tasks that need to be performed are done through t
 ### Linting
 This project uses 2 main linting programs
 - [mypy](http://www.mypy-lang.org/) - a static type-checker
-- [pylint](https://www.pylint.org/) - a code quality checker
+- [ruff](https://ruff.rs/) - a code quality checker
 
 If you want to customize the lint configuration, modify the following files
 - [mypy.ini](mypy.ini) - to customize the mypy setup
-- [pylintrc](pylintrc) - to customize the pylint setup
-
-Also note that by default *pylint* is configured to run using all available CPU cores. To change this modify the `-j` cli option in this [Dockerfile](/lib/docker/lint/pylint/Dockerfile)
+- [ruff](pyproject.toml) - to customize the ruff setup
 
 ### Testing
 This project uses the [pytest](https://docs.pytest.org/en/latest/) framework for writing and maintaining unit tests.

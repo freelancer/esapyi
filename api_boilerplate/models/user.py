@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text, UniqueConstraint
-
+from sqlalchemy import String, Text, Integer, UniqueConstraint
+from sqlalchemy.orm import Mapped, mapped_column
 from api_boilerplate.models.db import Base
 
 
@@ -13,6 +13,6 @@ class User(Base):
         ),
     )
 
-    id = Column(Integer, primary_key=True, nullable=False)
-    email = Column(String(256), nullable=False)
-    password = Column(Text, nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
+    email = mapped_column(String(256), nullable=False)
+    password = mapped_column(Text, nullable=False)

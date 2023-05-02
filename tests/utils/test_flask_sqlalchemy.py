@@ -1,5 +1,6 @@
 from unittest.mock import patch, MagicMock
 import pytest
+from sqlalchemy import text
 from flask import Flask
 
 from tests.conftest import AppContextTestCase, DbContextTestCase
@@ -74,21 +75,21 @@ class TestAsAFlaskExtension(DbContextTestCase):
         self.fresh_app.add_url_rule('/bad', 'bad', self.bad_route)
 
     def good_route(self) -> str:
-        self.fresh_db.session.execute(
+        self.fresh_db.session.execute(text(
             '''
             INSERT INTO user (email, password)
             VALUES ('good@test.com', '123')
             '''
-        )
+        ))
         return 'Hello world'
 
     def bad_route(self) -> str:
-        self.fresh_db.session.execute(
+        self.fresh_db.session.execute(text(
             '''
             INSERT INTO user (email, password)
             VALUES ('bad@test.com', '123')
             '''
-        )
+        ))
         raise Exception()
 
     def test_good_route(self) -> None:
@@ -126,12 +127,12 @@ class TestAsAContextManager(DbContextTestCase):
 
     def test_handles_happy_path(self) -> None:
         with self.fresh_db as session:
-            session.execute(
+            session.execute(text(
                 '''
                 INSERT INTO user (email, password)
                 VALUES ('good@test.com', '123')
                 '''
-            )
+            ))
 
         with self.fresh_db as session:
             # check that data has been inserted into the db
@@ -143,12 +144,12 @@ class TestAsAContextManager(DbContextTestCase):
     def test_handles_unhappy_path(self) -> None:
         with pytest.raises(Exception):
             with self.fresh_db as session:
-                session.execute(
+                session.execute(text(
                     '''
                     INSERT INTO user (email, password)
                     VALUES ('good@test.com', '123')
                     '''
-                )
+                ))
                 raise Exception('something went wrong')
 
         with self.fresh_db as session:
@@ -169,12 +170,12 @@ class TestWithoutContextManager(DbContextTestCase):
         )
 
     def test_handles_happy_path(self) -> None:
-        self.fresh_db.session.execute(
+        self.fresh_db.session.execute(text(
             '''
             INSERT INTO user (email, password)
             VALUES ('good@test.com', '123')
             '''
-        )
+        ))
         self.fresh_db.session.commit()
         self.fresh_db.session.close()
 
@@ -187,12 +188,12 @@ class TestWithoutContextManager(DbContextTestCase):
 
     def test_handles_unhappy_path(self) -> None:
         try:
-            self.fresh_db.session.execute(
+            self.fresh_db.session.execute(text(
                 '''
                 INSERT INTO user (email, password)
                 VALUES ('good@test.com', '123')
                 '''
-            )
+            ))
             raise RuntimeError('something went wrong')
         except RuntimeError:
             self.fresh_db.session.rollback()

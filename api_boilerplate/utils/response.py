@@ -8,7 +8,6 @@ def _response(response: object, code: int) -> Tuple[flask.Response, int]:
     return jsonify(response), code
 
 
-# pylint: disable=invalid-name
 def ok(response: object = None, code: int = 200) -> Tuple[flask.Response, int]:
     return _response(response, code)
 

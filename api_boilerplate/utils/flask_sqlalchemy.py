@@ -18,7 +18,7 @@ class SqlAlchemy:
       multiple database binds, but somehow fails spectacularly and makes it
       more complicated than required.
     - It assumes you're manually committing or rolling back, and you have to
-      explicitly turn on commiting or rolling back at the end of a request.
+      explicitly turn on committing or rolling back at the end of a request.
 
     This simple library fixes these issues by providing a much simpler
     interface for managing your SqlAlchemy connections.
@@ -66,7 +66,7 @@ class SqlAlchemy:
     '''
     override_pool_class: Optional[Pool]
     engine: Engine
-    SessionMaker: Session
+    SessionMaker: sessionmaker[Session]
     flask_context_key: str
     flask_managed_context: bool = False
     connection_string: Optional[str]
@@ -78,7 +78,7 @@ class SqlAlchemy:
             connection_string: Optional[str] = None,
     ) -> None:
         self.override_pool_class = pool_class
-        self.SessionMaker = sessionmaker()  # pylint: disable=invalid-name
+        self.SessionMaker = sessionmaker()
         self.flask_context_key = f'sqlalchemy.{id(self)}'
         self.connection_string = connection_string
 
