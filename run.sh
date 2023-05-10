@@ -81,7 +81,7 @@ function python_lint {
         --rm \
         --user root:root \
         --volume `pwd`/.ruff_cache:/code/.ruff_cache \
-        --name escrow-qa-environments-lint-runtime \
+        --name api-boilerplate-lint-runtime \
         api-boilerplate-lint-runtime:$GIT_COMMIT ruff check .
 }
 
