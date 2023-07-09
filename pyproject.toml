@@ -10,19 +10,19 @@ readme = "README.md"
 python = "^3.8.0"
 Flask = "^2.3.2"
 uWSGI = "^2.0.21"
-SQLAlchemy = "^2.0.16"
-PyMySQL = "^1.0.3"
+SQLAlchemy = "^2.0.18"
+PyMySQL = "^1.1.0"
 cryptography = "^41.0.1"
 bcrypt = "^4.0.1"
 pavlova = "^0.1.3"
 
 [tool.poetry.group.dev.dependencies]
 alembic = "^1.11.1"
-pytest = "^7.3.2"
+pytest = "^7.4.0"
 pytest-cov = "^4.1.0"
 poetryup = "^0.12.7"
 ruff = "^0.0.263"
-pyright = "^1.1.314"
+pyright = "^1.1.316"
 
 [build-system]
 requires = ["poetry-core"]
