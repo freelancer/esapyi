@@ -8,6 +8,7 @@ from api_boilerplate.handlers.user import (
     get_user_by_email,
 )
 from api_boilerplate.utils.pav import Pavlova
+from api_boilerplate.v1 import route
 from api_boilerplate.v1.input_schemas import (
     User as UserInput,
     UserFilter as UserFilterInput,
@@ -24,6 +25,7 @@ from api_boilerplate.exceptions.user import (
 )
 
 
+@route('/user', 'create_or_filter_user')
 class CreateOrFilterUser(MethodView):
     @Pavlova.use(UserFilterInput)
     def get(self, data: UserFilterInput) -> ResponseReturnValue:
@@ -51,6 +53,7 @@ class CreateOrFilterUser(MethodView):
             )))
 
 
+@route('/user/<int:user_id>', 'get_user_by_id')
 class GetUserById(MethodView):
     def get(self, user_id: int) -> ResponseReturnValue:
         try:

@@ -1,29 +1,20 @@
 import logging
-from typing import Union, Optional, Tuple
+from typing import Union, Optional, Tuple, List
 from flask import Response
 from pavlova import PavlovaParsingError
-from api_boilerplate.utils.blueprint_container import BlueprintContainer, UrlRule
-from api_boilerplate.utils import response
-from api_boilerplate.v1.user import (
-    CreateOrFilterUser,
-    GetUserById,
+from api_boilerplate.utils.blueprint_container import (
+    BlueprintContainer, UrlRule, create_route_collector, import_submodules
 )
+from api_boilerplate.utils import response
+
+route_data: List[UrlRule] = []
+route = create_route_collector(route_data)
+
+import_submodules(__name__)
 
 
 class V1(BlueprintContainer):
-    url_rules = [
-        UrlRule(
-            route='/user',
-            route_name='create_or_filter_user',
-            view=CreateOrFilterUser,
-        ),
-        UrlRule(
-            route='/user/<int:user_id>',
-            route_name='get_user_by_id',
-            view=GetUserById,
-        ),
-    ]
-
+    url_rules = route_data
     error_types = [PavlovaParsingError]
 
     def error_handler(

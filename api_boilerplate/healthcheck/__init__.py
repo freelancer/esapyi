@@ -1,18 +1,18 @@
-from typing import Union
+from typing import Union, List
 from flask.typing import ResponseReturnValue
-from api_boilerplate.utils.blueprint_container import BlueprintContainer, UrlRule
+from api_boilerplate.utils.blueprint_container import (
+    BlueprintContainer, UrlRule, create_route_collector, import_submodules
+)
 from api_boilerplate.utils.response import error
-from api_boilerplate.healthcheck.ping import PingView
+
+route_data: List[UrlRule] = []
+route = create_route_collector(route_data)
+
+import_submodules(__name__)
 
 
 class HealthCheck(BlueprintContainer):
-    url_rules = [
-        UrlRule(
-            route='/ping',
-            route_name='ping',
-            view=PingView,
-        )
-    ]
+    url_rules = route_data
 
     def error_handler(
             self,

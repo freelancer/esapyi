@@ -1,4 +1,6 @@
-from typing import List, Type, NamedTuple
+import importlib
+import pkgutil
+from typing import List, Type, NamedTuple, Callable
 from flask import Blueprint
 from flask.typing import ResponseReturnValue
 from flask.views import MethodView
@@ -37,3 +39,36 @@ class BlueprintContainer:
             error_or_code: Exception,
     ) -> ResponseReturnValue:
         raise NotImplementedError
+
+
+def import_submodules(package, recursive=True):
+    """ Import all submodules of a module, recursively, including subpackages
+
+    :param package: package (name or actual module)
+    :type package: str | module
+    :rtype: dict[str, types.ModuleType]
+    """
+    if isinstance(package, str):
+        package = importlib.import_module(package)
+    results = {}
+    for _, name, is_pkg in pkgutil.walk_packages(
+            package.__path__,
+            package.__name__ + '.'
+    ):
+        results[name] = importlib.import_module(name)
+        if recursive and is_pkg:
+            results.update(import_submodules(name))
+    return results
+
+
+def create_route_collector(data_array: List[UrlRule]) -> Callable[
+        [str, str], Callable[[Type[MethodView]], Type[MethodView]]
+]:
+    route_array = data_array
+    def route(path: str, view_name: str) -> Callable[[Type[MethodView]], Type[MethodView]]:
+        def wrap(cls: Type[MethodView]) -> Type[MethodView]:
+            nonlocal route_array
+            route_array.append(UrlRule(path, view_name, cls))
+            return cls
+        return wrap
+    return route
