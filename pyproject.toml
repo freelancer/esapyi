@@ -12,7 +12,7 @@ Flask = "^2.3.2"
 uWSGI = "^2.0.22"
 SQLAlchemy = "^2.0.18"
 PyMySQL = "^1.1.0"
-cryptography = "^41.0.2"
+cryptography = "^41.0.6"
 bcrypt = "^4.0.1"
 pavlova = "^0.1.3"
 
